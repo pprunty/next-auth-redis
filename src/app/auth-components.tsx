@@ -1,4 +1,4 @@
-import { signIn, signOut } from "../auth";
+import { signIn, signOut } from '../auth';
 
 export function SignIn({
   provider,
@@ -7,7 +7,7 @@ export function SignIn({
   return (
     <form
       action={async () => {
-        "use server";
+        'use server';
         await signIn(provider);
       }}
     >
@@ -18,13 +18,11 @@ export function SignIn({
   );
 }
 
-export function SignOut(
-  props: React.ButtonHTMLAttributes<HTMLButtonElement>
-) {
+export function SignOut(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
     <form
       action={async () => {
-        "use server";
+        'use server';
         await signOut();
       }}
       className="w-full"

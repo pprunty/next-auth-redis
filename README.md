@@ -2,12 +2,30 @@
 
 This is a Next.js starter template to help accelerate your SaaS journey.
 
-
 # 1. Deploy to Vercel
 
-* TailwindCSS
+# 2. Setup OAuth Providers
 
-# Authentication 
+## Google
+
+## Apple
+
+## Instagram
+
+## GitHub
+
+1. Navigate to: https://github.com/settings/apps/new
+2. Add homepage URL [origin] from Vercel or custom domain
+3. Add callback url [origin]/api/auth/callback/github
+
+Reference:
+
+https://authjs.dev/guides/configuring-github
+https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app
+
+- TailwindCSS
+
+# Authentication
 
 `next-auth@beta`
 
@@ -18,5 +36,5 @@ This is a Next.js starter template to help accelerate your SaaS journey.
 
 # Upstash Redis
 
-Used as dedicated database versus cache. You can change the adapter easily by updating ... and following 
+Used as dedicated database versus cache. You can change the adapter easily by updating ... and following
 the instructions detailed by `next-auth` [here]().

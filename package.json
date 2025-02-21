@@ -6,22 +6,31 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "lint:fix": "next lint --fix",
+    "format": "prettier --write ."
   },
+  "author": "Patrick Prunty <patrickprunty.business@gmail.com>",
+  "contributors": [],
   "dependencies": {
+    "@auth/upstash-redis-adapter": "^2.7.4",
+    "@upstash/redis": "^1.34.4",
+    "next": "15.1.7",
+    "next-auth": "^5.0.0-beta.25",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "next": "15.1.7"
+    "stripe": "^17.6.0"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@eslint/eslintrc": "^3",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "postcss": "^8",
-    "tailwindcss": "^3.4.1",
+    "autoprefixer": "^10.4.20",
     "eslint": "^9",
     "eslint-config-next": "15.1.7",
-    "@eslint/eslintrc": "^3"
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
   }
 }

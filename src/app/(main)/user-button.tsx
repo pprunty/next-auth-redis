@@ -1,6 +1,6 @@
 import { Avatar, AvatarImage, AvatarFallback } from './avatar';
 import { auth } from '../../auth';
-import { SignIn } from './auth-components';
+import { SignIn, SignOut } from './auth-components';
 
 export default async function UserButton() {
   const session = await auth();
@@ -22,6 +22,7 @@ export default async function UserButton() {
         />
         <AvatarFallback>{session.user.name?.charAt(0) ?? 'U'}</AvatarFallback>
       </Avatar>
+      <SignOut className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors" />
     </div>
   );
 }

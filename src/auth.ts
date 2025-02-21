@@ -5,8 +5,8 @@ import Google from 'next-auth/providers/google';
 import GitHub from 'next-auth/providers/github';
 import Credentials from 'next-auth/providers/credentials';
 import Resend from 'next-auth/providers/resend';
-import Apple from "next-auth/providers/apple"
-import Instagram from "next-auth/providers/instagram"
+import Apple from 'next-auth/providers/apple';
+import Instagram from 'next-auth/providers/instagram';
 
 // Define the Basic (credentials) provider
 const Basic = Credentials({
@@ -39,7 +39,6 @@ https://authjs.dev/guides/configuring-github
 
 */
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  debug: process.env.NODE_ENV === 'development',
   providers: [
     // Configure Google provider (ensure you provide your clientId and clientSecret)
     Google,
@@ -53,8 +52,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     Basic,
   ],
   adapter: UpstashRedisAdapter(redis),
-  session: { strategy: "jwt" },
   pages: {
     signIn: '/auth/signin',
   },
+  session: { strategy: 'jwt' },
 });

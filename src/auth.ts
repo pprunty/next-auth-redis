@@ -51,6 +51,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     // Add the Basic (credentials) provider
     Basic,
   ],
+  callbacks: {
+    async redirect({ baseUrl }) {
+      // Always redirect to the baseUrl (which is "/" in this case)
+      return baseUrl;
+    },
+  },
   adapter: UpstashRedisAdapter(redis),
   pages: {
     signIn: '/auth/signin',

@@ -1,7 +1,9 @@
+// /app/layout.tsx
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { Inter } from 'next/font/google';
-import Header from './header';
+import { themeEffect } from '@/app/components/theme-effect';
+import { doge } from './doge';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -23,21 +25,24 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html
       lang="en"
       suppressHydrationWarning
       className={`${inter.variable} font-sans antialiased`}
     >
-      <body className="dark:text-[#EEEEEE] text-[#111111] max-w-2xl m-auto">
-        <main className="p-6 z-[100] pt-3 md:pt-6 min-h-screen">
-          <Header />
-          {children}
-        </main>
-      </body>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(${themeEffect.toString()})();(${doge.toString()})();`,
+          }}
+        />
+        <link rel="icon" href="/icons/32x32.png" sizes="any" />
+      </head>
+      <body className="dark:text-[#EEEEEE] text-[#111111]">{children}</body>
     </html>
   );
 }

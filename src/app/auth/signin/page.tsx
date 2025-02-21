@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, FormEvent } from 'react';
+import { useEffect, useState, FormEvent, Suspense } from 'react';
 import { getProviders, signIn } from 'next-auth/react';
 
 interface Provider {
@@ -43,77 +43,69 @@ export default function SignInPage() {
     }
   };
 
-  if (!providers) {
-    return <div>Loading...</div>;
-  }
-
   return (
-    <div style={{ maxWidth: 400, margin: '0 auto', padding: '2rem' }}>
-      <h1>Sign In</h1>
+    <div className="max-w-[400px] mx-auto p-8">
+      <h1 className="text-2xl font-bold mb-6">Sign In</h1>
 
-      {/* Credentials (Basic) Sign In */}
-      {providers['credentials'] && (
-        <div style={{ marginBottom: '2rem' }}>
-          <h2>Sign in with Email</h2>
-          <form onSubmit={handleCredentialsSignIn}>
-            <div style={{ marginBottom: '1rem' }}>
-              <label>
-                Email:
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  style={{
-                    width: '100%',
-                    padding: '0.5rem',
-                    marginTop: '0.5rem',
-                  }}
-                />
-              </label>
-            </div>
-            <div style={{ marginBottom: '1rem' }}>
-              <label>
-                Password:
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  style={{
-                    width: '100%',
-                    padding: '0.5rem',
-                    marginTop: '0.5rem',
-                  }}
-                />
-              </label>
-            </div>
-            {error && (
-              <div style={{ color: 'red', marginBottom: '1rem' }}>{error}</div>
-            )}
-            <button type="submit" style={{ padding: '0.75rem 1.5rem' }}>
-              Sign in
-            </button>
-          </form>
-        </div>
-      )}
+      <Suspense fallback={null}>
+        {providers?.['credentials'] && (
+          <div className="mb-8">
+            <h2 className="text-xl font-medium mb-4">Sign in with Email</h2>
+            <form onSubmit={handleCredentialsSignIn}>
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700">
+                  Email:
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    className="mt-2 w-full p-2 border border-gray-300 rounded"
+                  />
+                </label>
+              </div>
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700">
+                  Password:
+                  <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    className="mt-2 w-full p-2 border border-gray-300 rounded"
+                  />
+                </label>
+              </div>
+              {error && <div className="text-red-500 mb-4">{error}</div>}
+              <button
+                type="submit"
+                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded"
+              >
+                Sign in
+              </button>
+            </form>
+          </div>
+        )}
+      </Suspense>
 
       {/* OAuth/Other Providers */}
-      <div>
-        <h2>Or sign in with</h2>
-        {Object.values(providers)
-          .filter((provider) => provider.id !== 'credentials')
-          .map((provider) => (
-            <div key={provider.id} style={{ marginBottom: '1rem' }}>
-              <button
-                onClick={() => signIn(provider.id)}
-                style={{ padding: '0.75rem 1.5rem' }}
-              >
-                Sign in with {provider.name}
-              </button>
-            </div>
-          ))}
-      </div>
+      {providers && (
+        <div>
+          <h2 className="text-xl font-medium mb-4">Or sign in with</h2>
+          {Object.values(providers)
+            .filter((provider) => provider.id !== 'credentials')
+            .map((provider) => (
+              <div key={provider.id} className="mb-4">
+                <button
+                  onClick={() => signIn(provider.id)}
+                  className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded"
+                >
+                  Sign in with {provider.name}
+                </button>
+              </div>
+            ))}
+        </div>
+      )}
     </div>
   );
 }

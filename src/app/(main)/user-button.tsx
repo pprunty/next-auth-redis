@@ -1,5 +1,5 @@
 import { Avatar, AvatarImage, AvatarFallback } from './avatar';
-import { auth } from '../auth';
+import { auth } from '../../auth';
 import { SignIn } from './auth-components';
 
 export default async function UserButton() {

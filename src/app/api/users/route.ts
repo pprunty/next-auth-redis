@@ -2,36 +2,14 @@
 import { NextResponse } from 'next/server';
 import redis from '../../../redis'; // Adjust the path as needed
 
+type UsersResponse = {
+  users: any[]; // list of user objects
+};
+
 /**
- * @swagger
- * /api/users:
- *   get:
- *     summary: Retrieve a list of users
- *     description: Fetches all users stored in the Redis database.
- *     responses:
- *       200:
- *         description: A list of user objects.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 users:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       id:
- *                         type: string
- *                         description: The user ID.
- *                       name:
- *                         type: string
- *                         description: The user's name.
- *                       email:
- *                         type: string
- *                         description: The user's email address.
- *       500:
- *         description: Error retrieving users.
+ * Retrieve all users.
+ * @desc: Get all user records from Redis.
+ * @response: UsersResponse
  */
 export async function GET() {
   try {

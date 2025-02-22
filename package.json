@@ -10,8 +10,8 @@
     "lint:fix": "next lint --fix",
     "format": "prettier --write .",
     "pwa": "node scripts/pwa.js",
-    "generate:swagger": "NODE_NO_WARNINGS=1 ts-node src/swagger.config.ts > src/swagger.json",
-    "postbuild": "npm run generate:swagger && npm run pwa"
+    "swagger": "npx next-openapi-gen generate",
+    "postbuild": "npm run swagger && npm run pwa"
   },
   "author": "Patrick Prunty <patrickprunty.business@gmail.com>",
   "contributors": [],
@@ -22,11 +22,13 @@
     "eslint-plugin-prettier": "^5.2.3",
     "next": "15.1.7",
     "next-auth": "^5.0.0-beta.25",
+    "next-openapi-gen": "^0.1.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-initials-avatar": "^1.1.2",
     "stripe": "^17.6.0",
     "swagger-jsdoc": "^6.2.8",
+    "swagger-ui": "^5.19.0",
     "swagger-ui-react": "^5.19.0"
   },
   "devDependencies": {

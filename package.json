@@ -9,7 +9,9 @@
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "format": "prettier --write .",
-    "postbuild": "node scripts/pwa.js"
+    "pwa": "node scripts/pwa.js",
+    "generate:swagger": "NODE_NO_WARNINGS=1 ts-node src/swagger.config.ts > src/swagger.json",
+    "postbuild": "npm run generate:swagger && npm run pwa"
   },
   "author": "Patrick Prunty <patrickprunty.business@gmail.com>",
   "contributors": [],
@@ -39,6 +41,7 @@
     "eslint-config-next": "15.1.7",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
+    "ts-node": "^10.9.2",
     "typescript": "^5"
   }
 }

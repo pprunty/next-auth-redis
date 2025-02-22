@@ -2,22 +2,27 @@
 
 - [ ] Get Google OAuth working (patrickprunty.business@gmail.com)
   - [ ] Document how-to
+- [ ] Figure out how to extend user account schema to include admin / create make superuser
 - [ ] Create Resend account
   - [ ] Improve form input styling for Resend on /auth/signin
   - [ ] Integrate Resend authentication with Magic Link
   - [ ] Create Resend service and API for sending emails using templates
   - [ ] Document how-to
-- [ ] Integrate SwaggerAPI on backend APIs
-  - [ ] Protect /docs endpoint using admin RBAC
+- [x] Integrate SwaggerAPI on backend APIs
+  - [ ] Protect /docs endpoint using admin RBAC/middleware/something else (https://chatgpt.com/share/67b9f7b6-5f14-8009-8fa9-7b20faf32a15)
 - [ ] Integrate passkey authentication with next-auth
   - [ ] Document how-to
 - [ ] PWA enablement via script and config.ts
+  - [x] Add pwa.js script
+  - [ ] Include manifest.json updates in pwa.js script
+  - [ ] Integrate next-pwa library in next.config.ts
 
 Swagger issue = https://github.com/swagger-api/swagger-ui/issues/10212
+swagger fixed at 0.4.0 to avoid https://www.reddit.com/r/nextjs/comments/1bkswd8/enoent_no_such_file_or_directory_lstat/
 
-- [ ] Setup Supabase account
-- [ ] Update next-auth adaptor to be Supabase
-- [ ] Get GitHub OAuth working with Supabase
+- [ ] Setup Supabase/Prisma account
+- [ ] Update next-auth adaptor to be Supabase/Prisma
+- [ ] Get OAuth + everything working with Supabase/Prisma
 
 # Deploying to Vercel
 

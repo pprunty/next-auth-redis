@@ -2,7 +2,9 @@
 import { NextResponse } from 'next/server';
 import redis from '../../../redis'; // Adjust the path as needed
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 type UsersResponse = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   users: any[]; // list of user objects
 };
 

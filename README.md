@@ -58,6 +58,8 @@ https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/creating-an-oauth
 
 # PWA Enablement
 
+Simply place an icon.webp|jpg|png in the public/ directory.
+
 # SwaggerAPI documentation
 
 ---

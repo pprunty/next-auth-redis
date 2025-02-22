@@ -1,9 +1,7 @@
-import { getApiDocs } from '@/lib/swagger';
 import SwaggerUIComponent from './swagger';
 
 const ApiDocsPage = async () => {
-  const spec = await getApiDocs();
-  return <SwaggerUIComponent spec={spec} />;
+  return <SwaggerUIComponent />;
 };
 
 export default ApiDocsPage;

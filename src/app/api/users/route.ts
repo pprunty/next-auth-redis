@@ -2,12 +2,43 @@
 import { NextResponse } from 'next/server';
 import redis from '../../../redis'; // Adjust the path as needed
 
+/**
+ * @swagger
+ * /api/users:
+ *   get:
+ *     summary: Retrieve a list of users
+ *     description: Fetches all users stored in the Redis database.
+ *     responses:
+ *       200:
+ *         description: A list of user objects.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 users:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                         description: The user ID.
+ *                       name:
+ *                         type: string
+ *                         description: The user's name.
+ *                       email:
+ *                         type: string
+ *                         description: The user's email address.
+ *       500:
+ *         description: Error retrieving users.
+ */
 export async function GET() {
   try {
     // Retrieve all keys that match the pattern 'user:*'
     const allKeys = await redis.keys('user:*');
 
-    // Filter keys that represent actual user records:
+    // Filter keys that represent actual user records
     const userKeys = allKeys.filter((key) => /^user:[^:]+$/.test(key));
 
     // Retrieve and parse the data for each user

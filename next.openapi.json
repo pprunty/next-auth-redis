@@ -9,6 +9,10 @@
     {
       "url": "http://localhost:3000/api",
       "description": "Local development server"
+    },
+    {
+      "url": "https://next-auth-redis.vercel.app/api",
+      "description": "Vercel development server"
     }
   ],
   "components": {

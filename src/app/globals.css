@@ -10,14 +10,14 @@
     color-scheme: light;
 
     @apply bg-[#fcfcfc];
-    @apply text-[#222222];
+    @apply text-[#111111];
   }
 
   /* Dark mode settings */
   :root.dark {
     color-scheme: dark;
     /* You can change theme dark color here to #131313 for example, remember to change it in theme-effect.ts too */
-    @apply bg-[#222222];
+    @apply bg-[#111111];
     @apply text-[#fcfcfc];
   }
 

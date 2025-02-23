@@ -2,16 +2,26 @@
 import { NextResponse } from 'next/server';
 import redis from '../../../redis'; // Adjust the path as needed
 
+/**
+ * User type representing the user schema.
+ */
+type User = {
+  id: string;
+  name: string;
+  email: string;
+  image: string;
+  emailVerified: string | null; // or Date | null if you prefer
+};
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 type UsersResponse = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  users: any[]; // list of user objects
+  users: User[]; // list of user objects
 };
 
 /**
  * Retrieve all users.
- * @desc: Get all user records from Redis.
- * @response: UsersResponse
+ * @desc Get all user records from Redis.
+ * @response { users: any[] }
  */
 export async function GET() {
   try {
@@ -25,12 +35,10 @@ export async function GET() {
     const users = await Promise.all(
       userKeys.map(async (key) => {
         const userData = await redis.get(key);
-        // Check if userData is a string; if so, try to parse it. Otherwise, assume it's already an object.
         if (typeof userData === 'string') {
           try {
             return JSON.parse(userData);
           } catch (err) {
-            // If JSON.parse fails, log the error and return the raw value
             console.error(`Error parsing JSON for key ${key}:`, err);
             return userData;
           }

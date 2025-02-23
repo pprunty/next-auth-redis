@@ -15,15 +15,6 @@
       "description": "Vercel development server"
     }
   ],
-  "components": {
-    "securitySchemes": {
-      "BearerAuth": {
-        "type": "http",
-        "scheme": "bearer",
-        "bearerFormat": "JWT"
-      }
-    }
-  },
   "apiDir": "./src/app/api",
   "schemaDir": "./src",
   "docsUrl": "docs",

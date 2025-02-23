@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useState, FormEvent, Suspense } from 'react';
-import { getProviders, signIn } from 'next-auth/react';
+import { getProviders, signIn as signInNextAuth } from 'next-auth/react';
+import { signIn as signInWebAuthn } from 'next-auth/webauthn';
 
 interface Provider {
   id: string;
@@ -14,10 +15,19 @@ export default function SignInPage() {
   const [providers, setProviders] = useState<Record<string, Provider> | null>(
     null,
   );
+
   // States for the credentials (basic) form
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+
+  // States for the Resend form
+  const [resendEmail, setResendEmail] = useState('');
+  const [resendError, setResendError] = useState('');
+
+  // States for the Passkey form
+  const [passkeyEmail, setPasskeyEmail] = useState('');
+  const [passkeyError, setPasskeyError] = useState('');
 
   // Fetch providers on mount
   useEffect(() => {
@@ -29,7 +39,7 @@ export default function SignInPage() {
   // Handler for the credentials sign in
   const handleCredentialsSignIn = async (e: FormEvent) => {
     e.preventDefault();
-    const res = await signIn('credentials', {
+    const res = await signInNextAuth('credentials', {
       redirect: false,
       email,
       password,
@@ -38,7 +48,36 @@ export default function SignInPage() {
     if (res?.error) {
       setError('Invalid credentials');
     } else {
-      // On success, redirect to callbackUrl or home page
+      window.location.href = res?.url || '/';
+    }
+  };
+
+  // Handler for Resend sign in (e.g. magic link)
+  const handleResendSignIn = async (e: FormEvent) => {
+    e.preventDefault();
+    const res = await signInNextAuth('resend', {
+      redirect: false,
+      email: resendEmail,
+      callbackUrl: '/',
+    });
+    if (res?.error) {
+      setResendError('Failed to sign in with Resend');
+    } else {
+      window.location.href = res?.url || '/';
+    }
+  };
+
+  // Handler for Passkey sign in (WebAuthn)
+  const handlePasskeySignIn = async (e: FormEvent) => {
+    e.preventDefault();
+    const res = await signInWebAuthn('passkey', {
+      redirect: false,
+      email: passkeyEmail,
+      callbackUrl: '/',
+    });
+    if (res?.error) {
+      setPasskeyError('Failed to sign in with Passkey');
+    } else {
       window.location.href = res?.url || '/';
     }
   };
@@ -88,16 +127,78 @@ export default function SignInPage() {
         )}
       </Suspense>
 
-      {/* OAuth/Other Providers */}
+      {providers?.['resend'] && (
+        <div className="mb-8">
+          <h2 className="text-xl font-medium mb-4">Sign in with Resend</h2>
+          <form onSubmit={handleResendSignIn}>
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700">
+                Email:
+                <input
+                  type="email"
+                  value={resendEmail}
+                  onChange={(e) => setResendEmail(e.target.value)}
+                  required
+                  className="mt-2 w-full p-2 border border-gray-300 rounded"
+                />
+              </label>
+            </div>
+            {resendError && (
+              <div className="text-red-500 mb-4">{resendError}</div>
+            )}
+            <button
+              type="submit"
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded"
+            >
+              Sign in with Resend
+            </button>
+          </form>
+        </div>
+      )}
+
+      {providers?.['passkey'] && (
+        <div className="mb-8">
+          <h2 className="text-xl font-medium mb-4">Sign in with Passkey</h2>
+          <form onSubmit={handlePasskeySignIn}>
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700">
+                Email:
+                <input
+                  type="email"
+                  value={passkeyEmail}
+                  onChange={(e) => setPasskeyEmail(e.target.value)}
+                  required
+                  className="mt-2 w-full p-2 border border-gray-300 rounded"
+                />
+              </label>
+            </div>
+            {passkeyError && (
+              <div className="text-red-500 mb-4">{passkeyError}</div>
+            )}
+            <button
+              type="submit"
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded"
+            >
+              Sign in with Passkey
+            </button>
+          </form>
+        </div>
+      )}
+
       {providers && (
         <div>
           <h2 className="text-xl font-medium mb-4">Or sign in with</h2>
           {Object.values(providers)
-            .filter((provider) => provider.id !== 'credentials')
+            .filter(
+              (provider) =>
+                provider.id !== 'credentials' &&
+                provider.id !== 'resend' &&
+                provider.id !== 'passkey',
+            )
             .map((provider) => (
               <div key={provider.id} className="mb-4">
                 <button
-                  onClick={() => signIn(provider.id)}
+                  onClick={() => signInNextAuth(provider.id)}
                   className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded"
                 >
                   Sign in with {provider.name}

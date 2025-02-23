@@ -1,3 +1,4 @@
+// src/auth.ts
 import NextAuth from 'next-auth';
 import { UpstashRedisAdapter } from '@auth/upstash-redis-adapter';
 import redis from './redis';
@@ -7,6 +8,7 @@ import Credentials from 'next-auth/providers/credentials';
 import Resend from 'next-auth/providers/resend';
 import Apple from 'next-auth/providers/apple';
 import Instagram from 'next-auth/providers/instagram';
+// import Passkey from "next-auth/providers/passkey"
 
 // Define the Basic (credentials) provider
 const Basic = Credentials({
@@ -16,7 +18,7 @@ const Basic = Credentials({
     password: { label: 'Password', type: 'password' },
   },
   async authorize(credentials) {
-    // Replace the following logic with your own user verification:
+    // Replace with your own user verification logic:
     if (
       credentials &&
       credentials.email === 'user@example.com' &&
@@ -40,20 +42,32 @@ https://authjs.dev/guides/configuring-github
 */
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
-    // Configure Google provider (ensure you provide your clientId and clientSecret)
     Google,
-    // Configure GitHub provider (ensure you provide your clientId and clientSecret)
     GitHub,
     Instagram,
     Apple,
-    // Resend for SMTP API and Magic Links
     Resend,
-    // Add the Basic (credentials) provider
+    // Passkey,
     Basic,
   ],
   callbacks: {
+    async session({ session, token }) {
+      // Attach the user id (from token.sub) to session.user.
+      // Using the non-null assertion since we expect token.sub to be defined.
+      if (session?.user) {
+        session.user.id = token.sub!;
+      }
+      return session;
+    },
+    async jwt({ token, user }) {
+      // If the user object is returned at sign in, add the id to the token.
+      if (user) {
+        token.sub = user.id;
+      }
+      return token;
+    },
     async redirect({ baseUrl }) {
-      // Always redirect to the baseUrl (which is "/" in this case)
+      // Always redirect to the baseUrl ("/" in this case)
       return baseUrl;
     },
   },
@@ -62,4 +76,5 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     signIn: '/auth/signin',
   },
   session: { strategy: 'jwt' },
+  experimental: { enableWebAuthn: true },
 });

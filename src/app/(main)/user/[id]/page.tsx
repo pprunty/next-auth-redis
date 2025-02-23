@@ -1,6 +1,7 @@
 // src/app/user/[id]/page.tsx
 import { auth } from '../../../../auth';
 import { fetchUserProfile } from '@/lib/user';
+import { fetchNextAuthData } from '@/lib/next-auth';
 
 type Params = Promise<{ id: string }>;
 
@@ -12,6 +13,14 @@ export default async function UserProfilePage({ params }: PageProps) {
   // Fetch the current session
   const session = await auth();
   const { id } = await params;
+
+  // Fetch external data from next-auth-redis and log it
+  try {
+    const nextAuthData = await fetchNextAuthData();
+    console.log('Data from next-auth-redis:', nextAuthData);
+  } catch (error) {
+    console.error('Failed to fetch next-auth-redis data:', error);
+  }
 
   let userProfile;
   try {

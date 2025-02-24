@@ -8,6 +8,9 @@ import Credentials from 'next-auth/providers/credentials';
 import Resend from 'next-auth/providers/resend';
 import Apple from 'next-auth/providers/apple';
 import Instagram from 'next-auth/providers/instagram';
+// import { MongoDBAdapter } from "@auth/mongodb-adapter";
+// import client from "./mongodb";
+
 // import Passkey from "next-auth/providers/passkey"
 
 // Define the Basic (credentials) provider
@@ -72,6 +75,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
   },
   adapter: UpstashRedisAdapter(redis),
+  // adapter: MongoDBAdapter(client),
   pages: {
     signIn: '/auth/signin',
   },
